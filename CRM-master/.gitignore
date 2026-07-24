@@ -1,0 +1,21 @@
+# Build directories
+target/
+**/target/
+frontend/dist/
+frontend/node_modules/
+node_modules/
+
+# IDE & OS
+.idea/
+*.iml
+.vscode/
+.DS_Store
+*.log
+
+# Environment & Secrets
+.env
+uploads/
+backend/uploads/
+
+# Package zip
+keystone-submission.zip
