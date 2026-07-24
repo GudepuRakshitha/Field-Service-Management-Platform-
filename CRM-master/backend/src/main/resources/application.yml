@@ -6,6 +6,12 @@ spring:
     username: ${DB_USER:keystone}
     password: ${DB_PASSWORD:keystone123}
     driver-class-name: org.postgresql.Driver
+    hikari:
+      minimum-idle: 2
+      maximum-pool-size: 10
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
   jpa:
     hibernate:
       ddl-auto: validate
