@@ -4,6 +4,7 @@ import { api } from '../api/client';
 import { PageHeader } from '../components/PageHeader';
 import { Button } from '../components/Button';
 import { Modal } from '../components/Modal';
+import { ComicLoadingScreen } from '../components/ComicLoadingScreen';
 import {
   UserPlus,
   Users,
@@ -226,6 +227,10 @@ export const UserManagement: React.FC = () => {
     }
   };
 
+  if (loading) {
+    return <ComicLoadingScreen message="LOADING USERS..." subtitle="Fetching Tenant Directory & Permissions" />;
+  }
+
   return (
     <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6">
       {/* Header */}
@@ -262,7 +267,7 @@ export const UserManagement: React.FC = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by name or email..."
-            className="w-full pl-10 pr-4 py-2 bg-[#081324] border border-blue-900/50 rounded-xl text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full pl-10 pr-4 py-2 text-sm rounded-xl focus:outline-none"
           />
         </div>
 
@@ -274,7 +279,7 @@ export const UserManagement: React.FC = () => {
             <select
               value={tenantFilter}
               onChange={(e) => setTenantFilter(e.target.value)}
-              className="bg-[#081324] border border-blue-900/50 text-white text-xs font-bold py-2 px-3 rounded-xl"
+              className="text-xs font-bold py-2 px-3 rounded-xl"
             >
               <option value="ALL">All Tenants</option>
               <option value="INTERNAL">Internal Meridian Ops</option>
@@ -306,120 +311,118 @@ export const UserManagement: React.FC = () => {
       </div>
 
       {/* Users Directory Table */}
-      <div className="glass-panel rounded-2xl overflow-hidden shadow-xl">
-        {loading ? (
-          <div className="text-center py-16 text-slate-400">Loading user directory & tenant assignments...</div>
-        ) : filteredUsers.length === 0 ? (
-          <div className="text-center py-16 text-slate-400 space-y-2">
-            <Users className="w-10 h-10 mx-auto text-slate-600" />
-            <div className="font-semibold text-slate-300">No users match criteria</div>
-            <div className="text-xs text-slate-500">Try clearing filters or search keywords.</div>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm border-collapse">
-              <thead className="bg-[#08152b] text-xs uppercase font-extrabold text-blue-300 border-b border-blue-900/40">
-                <tr>
-                  <th className="px-6 py-4 text-center">User & Contact</th>
-                  <th className="px-6 py-4 text-center">Tenant Scope</th>
-                  <th className="px-6 py-4 text-center">Role</th>
-                  <th className="px-6 py-4 text-center">Account Status</th>
-                  <th className="px-6 py-4 text-center">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-blue-900/30">
-                {filteredUsers.map((u) => {
-                  const isActive = u.active ?? true;
+        <div className="glass-panel rounded-2xl overflow-hidden shadow-xl">
+          {filteredUsers.length === 0 ? (
+            <div className="text-center py-16 text-slate-400 space-y-2">
+              <Users className="w-10 h-10 mx-auto text-slate-600" />
+              <div className="font-semibold text-slate-300">No users match criteria</div>
+              <div className="text-xs text-slate-500">Try clearing filters or search keywords.</div>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm border-collapse">
+                <thead className="text-xs uppercase font-extrabold text-blue-400 border-b border-blue-900/40">
+                  <tr>
+                    <th className="px-6 py-4 text-center">User & Contact</th>
+                    <th className="px-6 py-4 text-center">Tenant Scope</th>
+                    <th className="px-6 py-4 text-center">Role</th>
+                    <th className="px-6 py-4 text-center">Account Status</th>
+                    <th className="px-6 py-4 text-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-blue-900/30">
+                  {filteredUsers.map((u) => {
+                    const isActive = u.active ?? true;
 
-                  return (
-                    <tr key={u.id} className="hover:bg-blue-950/30 transition-colors">
-                      <td className="px-6 py-4 text-left">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-sky-500 flex items-center justify-center font-bold text-white shadow-md shadow-blue-600/30 shrink-0">
-                            {u.name.charAt(0)}
-                          </div>
-                          <div className="text-left">
-                            <div className="font-bold text-white flex items-center gap-2">
-                              {u.name}
-                              {!isActive && (
-                                <span className="text-[10px] bg-rose-500/20 text-rose-300 border border-rose-500/40 px-2 py-0.5 rounded-full font-bold">
-                                  DEACTIVATED
-                                </span>
-                              )}
+                    return (
+                      <tr key={u.id} className="hover:bg-blue-950/30 transition-colors">
+                        <td className="px-6 py-4 text-left">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-sky-500 flex items-center justify-center font-bold text-white shadow-md shadow-blue-600/30 shrink-0">
+                              {u.name.charAt(0)}
                             </div>
-                            <div className="text-xs text-slate-400 font-mono">{u.email}</div>
+                            <div className="text-left">
+                              <div className="font-bold text-white flex items-center gap-2">
+                                {u.name}
+                                {!isActive && (
+                                  <span className="text-[10px] bg-rose-500/20 text-rose-300 border border-rose-500/40 px-2 py-0.5 rounded-full font-bold">
+                                    DEACTIVATED
+                                  </span>
+                                )}
+                              </div>
+                              <div className="text-xs text-slate-400 font-mono">{u.email}</div>
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 text-left">
-                        <div className="flex justify-start">
-                          {u.customerName ? (
-                            <span className="inline-flex items-center gap-1.5 text-xs text-sky-300 font-bold bg-sky-950/50 px-3 py-1 rounded-xl border border-sky-800/40 whitespace-nowrap shrink-0 h-[30px]">
-                              <Building className="w-3.5 h-3.5 text-sky-400 shrink-0" />
-                              <span className="truncate max-w-[160px]">{u.customerName}</span>
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center gap-1.5 text-xs text-purple-300 font-bold bg-purple-950/50 px-3 py-1 rounded-xl border border-purple-800/40 whitespace-nowrap shrink-0 h-[30px]">
-                              <Shield className="w-3.5 h-3.5 text-purple-400 shrink-0" />
-                              <span>Internal Meridian</span>
-                            </span>
-                          )}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 text-left">
-                        <div className="flex justify-start">{getRoleBadge(u.role)}</div>
-                      </td>
-                      <td className="px-6 py-4 text-left">
-                        <div className="flex justify-start">
-                          {isActive ? (
-                            <span className="inline-flex items-center justify-center gap-1 text-xs font-bold text-emerald-400 bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-500/40 whitespace-nowrap shrink-0 h-[30px]">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" /> Active
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center justify-center gap-1 text-xs font-bold text-rose-400 bg-rose-950/60 px-3 py-1 rounded-full border border-rose-500/40 whitespace-nowrap shrink-0 h-[30px]">
-                              <XCircle className="w-3.5 h-3.5 text-rose-400 shrink-0" /> Inactive
-                            </span>
-                          )}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 text-left">
-                        <div className="flex items-center justify-start gap-2">
-                          <button
-                            onClick={() => openEditModal(u)}
-                            className="px-3 py-1.5 rounded-xl bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 text-xs font-bold flex items-center gap-1.5"
-                          >
-                            <Key className="w-3.5 h-3.5 text-sky-400" /> Permissions
-                          </button>
-
-                          <button
-                            onClick={() => handleToggleStatus(u)}
-                            className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 border transition-all ${
-                              isActive
-                                ? 'bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border-rose-500/40'
-                                : 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border-emerald-500/40'
-                            }`}
-                            title={isActive ? 'Deactivate User Account' : 'Reactivate User Account'}
-                          >
-                            {isActive ? (
-                              <>
-                                <UserX className="w-3.5 h-3.5 text-rose-400" /> Deactivate
-                              </>
+                        </td>
+                        <td className="px-6 py-4 text-left">
+                          <div className="flex justify-start">
+                            {u.customerName ? (
+                              <span className="inline-flex items-center gap-1.5 text-xs text-sky-300 font-bold bg-sky-950/50 px-3 py-1 rounded-xl border border-sky-800/40 whitespace-nowrap shrink-0 h-[30px]">
+                                <Building className="w-3.5 h-3.5 text-sky-400 shrink-0" />
+                                <span className="truncate max-w-[160px]">{u.customerName}</span>
+                              </span>
                             ) : (
-                              <>
-                                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Activate
-                              </>
+                              <span className="inline-flex items-center gap-1.5 text-xs text-purple-300 font-bold bg-purple-950/50 px-3 py-1 rounded-xl border border-purple-800/40 whitespace-nowrap shrink-0 h-[30px]">
+                                <Shield className="w-3.5 h-3.5 text-purple-400 shrink-0" />
+                                <span>Internal Meridian</span>
+                              </span>
                             )}
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-left">
+                          <div className="flex justify-start">{getRoleBadge(u.role)}</div>
+                        </td>
+                        <td className="px-6 py-4 text-left">
+                          <div className="flex justify-start">
+                            {isActive ? (
+                              <span className="inline-flex items-center justify-center gap-1 text-xs font-bold text-emerald-400 bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-500/40 whitespace-nowrap shrink-0 h-[30px]">
+                                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" /> Active
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center justify-center gap-1 text-xs font-bold text-rose-400 bg-rose-950/60 px-3 py-1 rounded-full border border-rose-500/40 whitespace-nowrap shrink-0 h-[30px]">
+                                <XCircle className="w-3.5 h-3.5 text-rose-400 shrink-0" /> Inactive
+                              </span>
+                            )}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-left">
+                          <div className="flex items-center justify-start gap-2">
+                            <button
+                              onClick={() => openEditModal(u)}
+                              className="px-3 py-1.5 rounded-xl bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 text-xs font-bold flex items-center gap-1.5"
+                            >
+                              <Key className="w-3.5 h-3.5 text-sky-400" /> Permissions
+                            </button>
+
+                            <button
+                              onClick={() => handleToggleStatus(u)}
+                              className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 border transition-all ${
+                                isActive
+                                  ? 'bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border-rose-500/40'
+                                  : 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border-emerald-500/40'
+                              }`}
+                              title={isActive ? 'Deactivate User Account' : 'Reactivate User Account'}
+                            >
+                              {isActive ? (
+                                <>
+                                  <UserX className="w-3.5 h-3.5 text-rose-400" /> Deactivate
+                                </>
+                              ) : (
+                                <>
+                                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Activate
+                                </>
+                              )}
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
 
       {/* Add New User Modal with Role & Permission Checkboxes */}
       <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title="Create User & Assign Role Permissions">
@@ -529,7 +532,7 @@ export const UserManagement: React.FC = () => {
                     className={`p-2.5 rounded-xl border text-xs cursor-pointer flex items-start gap-3 transition-all ${
                       checked
                         ? 'bg-blue-950/60 border-blue-500/50 text-white'
-                        : 'bg-[#081324] border-blue-900/30 text-slate-400 hover:text-slate-200'
+                        : 'glass-panel border-blue-900/30 text-slate-400 hover:text-slate-200'
                     }`}
                   >
                     {checked ? (
@@ -580,7 +583,7 @@ export const UserManagement: React.FC = () => {
                     className={`p-3 rounded-xl border text-xs cursor-pointer flex items-start gap-3 transition-all ${
                       checked
                         ? 'bg-blue-950/60 border-blue-500/50 text-white'
-                        : 'bg-[#081324] border-blue-900/30 text-slate-400 hover:text-slate-200'
+                        : 'glass-panel border-blue-900/30 text-slate-400 hover:text-slate-200'
                     }`}
                   >
                     {checked ? (

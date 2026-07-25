@@ -5,6 +5,7 @@ import { StatusBadge } from '../components/StatusBadge';
 import { PriorityBadge } from '../components/PriorityBadge';
 import { SlaBadge } from '../components/SlaBadge';
 import { useAuth } from '../auth/AuthContext';
+import { ComicLoadingScreen } from '../components/ComicLoadingScreen';
 import { Building2, Plus, User, Wrench, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -75,7 +76,7 @@ export const CustomerPortal: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="p-8 text-center text-emerald-400 font-medium">Loading Customer Portal...</div>;
+    return <ComicLoadingScreen message="LOADING PORTAL..." subtitle="Retrieving Customer Data" />;
   }
 
   return (
@@ -161,7 +162,7 @@ export const CustomerPortal: React.FC = () => {
                   required
                   value={siteId}
                   onChange={(e) => setSiteId(Number(e.target.value))}
-                  className="w-full bg-slate-900 border border-slate-700 text-white rounded-xl p-2.5 text-sm"
+                  className="w-full rounded-xl p-2.5 text-sm"
                 >
                   <option value="">-- Select Your Site --</option>
                   {sites.map((s) => (
@@ -180,7 +181,7 @@ export const CustomerPortal: React.FC = () => {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="e.g. Water Leak on Floor 2"
-                  className="w-full bg-slate-900 border border-slate-700 text-white rounded-xl p-2.5 text-sm"
+                  className="w-full rounded-xl p-2.5 text-sm"
                 />
               </div>
 
@@ -191,7 +192,7 @@ export const CustomerPortal: React.FC = () => {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Provide context for our dispatchers..."
-                  className="w-full bg-slate-900 border border-slate-700 text-white rounded-xl p-2.5 text-sm"
+                  className="w-full rounded-xl p-2.5 text-sm"
                 />
               </div>
 
@@ -200,7 +201,7 @@ export const CustomerPortal: React.FC = () => {
                 <select
                   value={priority}
                   onChange={(e) => setPriority(e.target.value as Priority)}
-                  className="w-full bg-slate-900 border border-slate-700 text-white rounded-xl p-2.5 text-sm"
+                  className="w-full rounded-xl p-2.5 text-sm"
                 >
                   <option value="LOW">Low (5 Days Response)</option>
                   <option value="MEDIUM">Medium (3 Days Response)</option>
@@ -213,7 +214,7 @@ export const CustomerPortal: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 bg-slate-800 text-slate-300 text-sm rounded-xl"
+                  className="px-4 py-2 text-sm rounded-xl"
                 >
                   Cancel
                 </button>

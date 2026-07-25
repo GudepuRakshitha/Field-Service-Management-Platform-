@@ -18,7 +18,8 @@ import {
   X,
   UserCheck,
   Sun,
-  Moon
+  Moon,
+  Sparkles
 } from 'lucide-react';
 
 export const SidebarLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -59,9 +60,9 @@ export const SidebarLayout: React.FC<{ children: React.ReactNode }> = ({ childre
             <button
               onClick={toggleTheme}
               className="p-2.5 rounded-xl border border-blue-900/40 bg-blue-950/40 hover:bg-blue-900/60 text-amber-400 transition-all shadow-sm"
-              title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
+              title={`Switch to ${theme === 'dark' ? 'Light' : theme === 'light' ? 'Comic' : 'Dark'} Mode`}
             >
-              {theme === 'dark' ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5 text-sky-400" />}
+              {theme === 'dark' ? <Sun className="w-5 h-5 text-amber-400" /> : theme === 'light' ? <Sparkles className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5 text-sky-400" />}
             </button>
 
             <button
@@ -127,11 +128,11 @@ export const SidebarLayout: React.FC<{ children: React.ReactNode }> = ({ childre
           <button
             onClick={toggleTheme}
             className="p-2 sm:px-3 sm:py-2 rounded-xl border border-blue-900/40 bg-blue-950/40 hover:bg-blue-900/60 text-amber-400 transition-all shadow-sm flex items-center gap-2"
-            title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
+            title={`Switch to ${theme === 'dark' ? 'Light' : theme === 'light' ? 'Comic' : 'Dark'} Mode`}
           >
-            {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-sky-400" />}
+            {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : theme === 'light' ? <Sparkles className="w-4 h-4 text-yellow-500" /> : <Moon className="w-4 h-4 text-sky-400" />}
             <span className="text-xs font-semibold text-slate-300 hidden md:inline">
-              {theme === 'dark' ? 'Light' : 'Dark'}
+              {theme === 'dark' ? 'Light' : theme === 'light' ? 'Comic' : 'Dark'}
             </span>
           </button>
 
@@ -227,15 +228,41 @@ export const SidebarLayout: React.FC<{ children: React.ReactNode }> = ({ childre
           </div>
         </div>
 
-        {/* Sidebar Footer - User Profile */}
-        <div className="p-4 m-3 rounded-2xl bg-blue-950/40 border border-blue-900/40 shrink-0">
-          <div className="flex items-center gap-2.5 overflow-hidden">
-            <div className="w-9 h-9 rounded-xl bg-blue-600/30 border border-blue-500/40 flex items-center justify-center font-bold text-blue-300 shrink-0">
-              {user.name.charAt(0)}
+        {/* Sidebar Footer */}
+        <div className="p-3 m-3 space-y-2 shrink-0">
+          {/* Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl border border-blue-900/40 bg-blue-950/40 hover:bg-blue-900/60 transition-all group"
+            title={`Switch to ${theme === 'dark' ? 'Light' : theme === 'light' ? 'Comic' : 'Dark'} Mode`}
+          >
+            <div className="flex items-center gap-2.5">
+              {theme === 'dark' ? (
+                <Sun className="w-4 h-4 text-amber-400" />
+              ) : theme === 'light' ? (
+                <Sparkles className="w-4 h-4 text-yellow-500" />
+              ) : (
+                <Moon className="w-4 h-4 text-sky-400" />
+              )}
+              <span className="text-xs font-semibold text-slate-300 group-hover:text-white transition-colors">
+                {theme === 'dark' ? 'Switch to Light' : theme === 'light' ? 'Switch to Comic' : 'Switch to Dark'}
+              </span>
             </div>
-            <div className="truncate">
-              <div className="text-xs font-bold text-white truncate">{user.name}</div>
-              <div className="text-[10px] font-extrabold text-sky-400 tracking-wider uppercase">{user.role}</div>
+            <div className={`w-8 h-4 rounded-full relative transition-colors duration-300 ${theme === 'dark' ? 'bg-blue-900/60' : theme === 'light' ? 'bg-sky-400/40' : 'bg-yellow-600/40'}`}>
+              <div className={`absolute top-0.5 w-3 h-3 rounded-full theme-toggle-knob ${theme === 'dark' ? 'left-0.5 bg-amber-400' : theme === 'light' ? 'left-4 bg-sky-500' : 'left-4 bg-yellow-400'}`} />
+            </div>
+          </button>
+
+          {/* User Profile Card */}
+          <div className="p-3 rounded-2xl bg-blue-950/40 border border-blue-900/40">
+            <div className="flex items-center gap-2.5 overflow-hidden">
+              <div className="w-9 h-9 rounded-xl bg-blue-600/30 border border-blue-500/40 flex items-center justify-center font-bold text-blue-300 shrink-0">
+                {user.name.charAt(0)}
+              </div>
+              <div className="truncate">
+                <div className="text-xs font-bold text-white truncate">{user.name}</div>
+                <div className="text-[10px] font-extrabold text-sky-400 tracking-wider uppercase">{user.role}</div>
+              </div>
             </div>
           </div>
         </div>

@@ -189,41 +189,109 @@ html.light .text-cyan-400 {
   color: #0e7490 !important;
 }
 
-/* Light Theme Card Overrides */
-html.light .bg-\[\#081324\], 
+html.light .text-indigo-300,
+html.light .text-indigo-400 {
+  color: #4338ca !important;
+}
+
+/* Light Theme Card / Background Overrides - all hardcoded dark hex values */
+html.light .bg-\[\#081324\],
+html.light .bg-\[\#081324\]\/80,
 html.light .bg-\[\#060e1a\], 
+html.light .bg-\[\#060e1a\]\/90,
+html.light .bg-\[\#060e1a\]\/95,
+html.light .bg-\[\#061121\],
+html.light .bg-\[\#061122\]\/90,
+html.light .bg-\[\#061122\],
 html.light .bg-\[\#08152b\],
 html.light .bg-slate-900,
 html.light .bg-slate-900\/60,
 html.light .bg-slate-900\/80,
-html.light .bg-slate-950 {
+html.light .bg-slate-800,
+html.light .bg-slate-800\/40,
+html.light .bg-slate-800\/60,
+html.light .bg-slate-800\/80,
+html.light .bg-slate-950,
+html.light .bg-slate-950\/40,
+html.light .bg-slate-950\/80 {
   background-color: #faf8f5 !important;
   border-color: #e2dacd !important;
+  color: #1c1917 !important;
 }
 
 html.light .bg-blue-950\/40, 
 html.light .bg-blue-950\/60, 
 html.light .bg-blue-950\/50,
+html.light .bg-blue-950\/30,
 html.light .bg-blue-900\/40,
 html.light .bg-amber-950\/30,
+html.light .bg-amber-950\/40,
 html.light .bg-emerald-950\/30,
+html.light .bg-emerald-950\/40,
 html.light .bg-teal-950\/30,
-html.light .bg-cyan-950\/30 {
+html.light .bg-cyan-950\/30,
+html.light .bg-sky-950\/50,
+html.light .bg-purple-950\/50,
+html.light .bg-indigo-950\/30,
+html.light .bg-rose-950\/60,
+html.light .bg-emerald-950\/60,
+html.light .bg-blue-600\/25,
+html.light .bg-blue-600\/20,
+html.light .bg-blue-600\/30,
+html.light .bg-amber-500\/10,
+html.light .bg-sky-500\/10,
+html.light .bg-emerald-500\/10,
+html.light .bg-emerald-500\/20,
+html.light .bg-rose-500\/20,
+html.light .bg-amber-500\/20,
+html.light .bg-indigo-950\/30,
+html.light .bg-indigo-500\/10 {
   background-color: #f3efe6 !important;
   border-color: #e2dacd !important;
   color: #1c1917 !important;
 }
 
-html.light table thead {
+/* Table overrides */
+html.light table thead,
+html.light thead {
   background-color: #efebe2 !important;
   color: #1c1917 !important;
   border-bottom: 2px solid #e2dacd !important;
 }
 
-html.light table tbody tr:hover {
+html.light table tbody tr:hover,
+html.light tbody tr:hover {
   background-color: #f3efe6 !important;
 }
 
+html.light .divide-y > * {
+  border-color: #e2dacd !important;
+}
+
+html.light .divide-blue-900\/30 > * {
+  border-color: #e2dacd !important;
+}
+
+html.light .divide-slate-800\/60 > * {
+  border-color: #e2dacd !important;
+}
+
+/* Border overrides */
+html.light .border-slate-800,
+html.light .border-slate-800\/80,
+html.light .border-slate-800\/60,
+html.light .border-slate-800\/40,
+html.light .border-blue-900\/40,
+html.light .border-blue-900\/50,
+html.light .border-blue-900\/30,
+html.light .border-slate-700,
+html.light .border-slate-700\/30,
+html.light .border-slate-700\/40,
+html.light .border-slate-700\/50 {
+  border-color: #e2dacd !important;
+}
+
+/* Input / Form Controls */
 html.light input, 
 html.light select, 
 html.light textarea {
@@ -237,6 +305,687 @@ html.light select::placeholder,
 html.light textarea::placeholder {
   color: #a8a29e !important;
 }
+
+html.light input:focus,
+html.light select:focus,
+html.light textarea:focus {
+  border-color: #c5a059 !important;
+  box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.2) !important;
+}
+
+/* Button light overrides */
+html.light button.text-slate-400 {
+  color: #78716c !important;
+}
+
+html.light .focus\:ring-offset-slate-950:focus {
+  --tw-ring-offset-color: #f5f2eb !important;
+}
+
+/* Hover state overrides for light mode */
+html.light .hover\:bg-slate-800\/60:hover,
+html.light .hover\:bg-slate-800\/80:hover,
+html.light .hover\:bg-slate-800:hover,
+html.light .hover\:bg-slate-700:hover,
+html.light .hover\:bg-slate-700\/80:hover,
+html.light .hover\:bg-slate-600:hover {
+  background-color: #e8e2d4 !important;
+}
+
+/* dark-border utility for modal headers */
+html.light .dark-border {
+  border-color: #e2dacd !important;
+}
+
+/* Notification Drawer light override */
+html.light .bg-indigo-950\/30 {
+  background-color: #f0ece0 !important;
+}
+
+html.light .bg-indigo-950\/30.border-indigo-500\/30 {
+  border-color: #c5a059 !important;
+}
+
+html.light .text-indigo-300 {
+  color: #4338ca !important;
+}
+
+html.light .text-indigo-400 {
+  color: #4338ca !important;
+}
+
+/* Modal border fix in light mode */
+html.light .border-slate-800\/80 {
+  border-color: #e2dacd !important;
+}
+
+/* ═══════════════════════════════════════
+   MARVEL COMIC BOOK THEME
+   ═══════════════════════════════════════ */
+html.marvel {
+  --bg-dark: #f5f0e8;
+  --bg-dark-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #fff8e7;
+  --border-color: #1a1a1a;
+  --border-glow: #e23636;
+  
+  --primary: #e23636;
+  --primary-hover: #b71c1c;
+  --secondary: #0057b8;
+  --accent: #ffd700;
+  
+  --text-main: #1a1a1a;
+  --text-body: #2a2a2a;
+  --text-muted: #555555;
+  --text-subtle: #888888;
+}
+
+/* Comic page background — Ben Day dots pattern */
+html.marvel body {
+  background-color: #f5f0e8 !important;
+  color: #1a1a1a !important;
+  background-image: 
+    radial-gradient(circle, rgba(0, 0, 0, 0.07) 1px, transparent 1px),
+    radial-gradient(at 0% 0%, rgba(226, 54, 54, 0.06) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(0, 87, 184, 0.06) 0px, transparent 50%) !important;
+  background-size: 12px 12px, auto, auto !important;
+}
+
+html.marvel h1, html.marvel h2, html.marvel h3, html.marvel h4, html.marvel h5, html.marvel h6 {
+  color: #1a1a1a !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.02em !important;
+}
+
+/* Glass panel → comic panel */
+html.marvel .glass-panel {
+  position: relative;
+  background: #ffffff !important;
+  border: 2px solid #1a1a1a !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.2) !important;
+  color: #1a1a1a !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html.marvel .glass-panel-hover:hover {
+  background: #fff8e7 !important;
+  border-color: #e23636 !important;
+  box-shadow: 8px 8px 0px rgba(226, 54, 54, 0.25) !important;
+  transform: translate(-2px, -2px) !important;
+}
+
+/* Comic panel corner accent */
+html.marvel .glass-panel::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, transparent 50%, #e23636 50%);
+  border-radius: 0 0.75rem 0 0;
+  opacity: 0.7;
+}
+
+/* Navigation & header */
+html.marvel aside {
+  background: #ffffff !important;
+  border-right: 2px solid #1a1a1a !important;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+html.marvel header {
+  background: rgba(255, 255, 255, 0.97) !important;
+  border-bottom: 2px solid #1a1a1a !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Text color overrides */
+html.marvel .text-white {
+  color: #1a1a1a !important;
+}
+
+html.marvel .text-slate-400, 
+html.marvel .text-slate-300, 
+html.marvel .text-slate-200 {
+  color: #444444 !important;
+}
+
+html.marvel .text-slate-500,
+html.marvel .text-slate-600 {
+  color: #666666 !important;
+}
+
+html.marvel .text-blue-200,
+html.marvel .text-blue-300, 
+html.marvel .text-blue-400 {
+  color: #0057b8 !important;
+}
+
+html.marvel .text-sky-300,
+html.marvel .text-sky-400 {
+  color: #0088cc !important;
+}
+
+html.marvel .text-amber-200,
+html.marvel .text-amber-300,
+html.marvel .text-amber-400 {
+  color: #cc8800 !important;
+}
+
+html.marvel .text-emerald-200,
+html.marvel .text-emerald-300,
+html.marvel .text-emerald-400 {
+  color: #007744 !important;
+}
+
+html.marvel .text-rose-200,
+html.marvel .text-rose-300,
+html.marvel .text-rose-400 {
+  color: #cc2233 !important;
+}
+
+html.marvel .text-purple-200,
+html.marvel .text-purple-300,
+html.marvel .text-purple-400 {
+  color: #6b21a8 !important;
+}
+
+html.marvel .text-indigo-300,
+html.marvel .text-indigo-400 {
+  color: #4338ca !important;
+}
+
+html.marvel .text-cyan-200,
+html.marvel .text-cyan-300,
+html.marvel .text-cyan-400 {
+  color: #0e7490 !important;
+}
+
+/* Background overrides — redraw all dark backgrounds to white/cream */
+html.marvel .bg-\[\#081324\],
+html.marvel .bg-\[\#081324\]\/80,
+html.marvel .bg-\[\#060e1a\], 
+html.marvel .bg-\[\#060e1a\]\/90,
+html.marvel .bg-\[\#060e1a\]\/95,
+html.marvel .bg-\[\#061121\],
+html.marvel .bg-\[\#061122\]\/90,
+html.marvel .bg-\[\#061122\],
+html.marvel .bg-\[\#08152b\],
+html.marvel .bg-slate-900,
+html.marvel .bg-slate-900\/60,
+html.marvel .bg-slate-900\/80,
+html.marvel .bg-slate-800,
+html.marvel .bg-slate-800\/40,
+html.marvel .bg-slate-800\/60,
+html.marvel .bg-slate-800\/80,
+html.marvel .bg-slate-950,
+html.marvel .bg-slate-950\/40,
+html.marvel .bg-slate-950\/80 {
+  background-color: #ffffff !important;
+  border-color: #1a1a1a !important;
+  color: #1a1a1a !important;
+}
+
+html.marvel .bg-blue-950\/40, 
+html.marvel .bg-blue-950\/60, 
+html.marvel .bg-blue-950\/50,
+html.marvel .bg-blue-950\/30,
+html.marvel .bg-blue-900\/40,
+html.marvel .bg-amber-950\/30,
+html.marvel .bg-amber-950\/40,
+html.marvel .bg-emerald-950\/30,
+html.marvel .bg-emerald-950\/40,
+html.marvel .bg-teal-950\/30,
+html.marvel .bg-cyan-950\/30,
+html.marvel .bg-sky-950\/50,
+html.marvel .bg-purple-950\/50,
+html.marvel .bg-indigo-950\/30,
+html.marvel .bg-rose-950\/60,
+html.marvel .bg-emerald-950\/60,
+html.marvel .bg-blue-600\/25,
+html.marvel .bg-blue-600\/20,
+html.marvel .bg-blue-600\/30,
+html.marvel .bg-amber-500\/10,
+html.marvel .bg-sky-500\/10,
+html.marvel .bg-emerald-500\/10,
+html.marvel .bg-emerald-500\/20,
+html.marvel .bg-rose-500\/20,
+html.marvel .bg-amber-500\/20,
+html.marvel .bg-indigo-950\/30,
+html.marvel .bg-indigo-500\/10 {
+  background-color: #f8f5ee !important;
+  border-color: #1a1a1a !important;
+  color: #1a1a1a !important;
+}
+
+/* Special: keep role-colored backgrounds for badges but make them pop */
+html.marvel .bg-emerald-500\/20 {
+  background-color: rgba(0, 119, 68, 0.15) !important;
+  border-color: #007744 !important;
+}
+
+html.marvel .bg-amber-500\/20 {
+  background-color: rgba(204, 136, 0, 0.15) !important;
+  border-color: #cc8800 !important;
+}
+
+html.marvel .bg-rose-500\/20 {
+  background-color: rgba(204, 34, 51, 0.15) !important;
+  border-color: #cc2233 !important;
+}
+
+html.marvel .bg-blue-500\/20 {
+  background-color: rgba(0, 87, 184, 0.15) !important;
+  border-color: #0057b8 !important;
+}
+
+html.marvel .bg-purple-500\/20 {
+  background-color: rgba(107, 33, 168, 0.15) !important;
+  border-color: #6b21a8 !important;
+}
+
+/* Table overrides */
+html.marvel table thead,
+html.marvel thead {
+  background-color: #e23636 !important;
+  color: #ffffff !important;
+  border-bottom: 3px solid #1a1a1a !important;
+}
+
+html.marvel table thead th {
+  color: #ffffff !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+
+html.marvel table tbody tr:hover,
+html.marvel tbody tr:hover {
+  background-color: #fff8e7 !important;
+}
+
+html.marvel .divide-y > * {
+  border-color: #1a1a1a !important;
+}
+
+html.marvel .divide-blue-900\/30 > * {
+  border-color: #1a1a1a !important;
+}
+
+html.marvel .divide-slate-800\/60 > * {
+  border-color: #1a1a1a !important;
+}
+
+/* Border overrides — all borders become bold black */
+html.marvel .border-slate-800,
+html.marvel .border-slate-800\/80,
+html.marvel .border-slate-800\/60,
+html.marvel .border-slate-800\/40,
+html.marvel .border-blue-900\/40,
+html.marvel .border-blue-900\/50,
+html.marvel .border-blue-900\/30,
+html.marvel .border-slate-700,
+html.marvel .border-slate-700\/30,
+html.marvel .border-slate-700\/40,
+html.marvel .border-slate-700\/50 {
+  border-color: #1a1a1a !important;
+}
+
+/* Input / Form Controls */
+html.marvel input, 
+html.marvel select, 
+html.marvel textarea {
+  background: #ffffff !important;
+  border: 2px solid #1a1a1a !important;
+  border-radius: 0.5rem !important;
+  color: #1a1a1a !important;
+  font-weight: 500 !important;
+}
+
+html.marvel input::placeholder,
+html.marvel select::placeholder,
+html.marvel textarea::placeholder {
+  color: #999999 !important;
+  font-weight: 400 !important;
+  font-style: italic !important;
+}
+
+html.marvel input:focus,
+html.marvel select:focus,
+html.marvel textarea:focus {
+  border-color: #e23636 !important;
+  box-shadow: 0 0 0 3px rgba(226, 54, 54, 0.3) !important;
+}
+
+/* Button overrides */
+html.marvel button.text-slate-400 {
+  color: #666666 !important;
+}
+
+html.marvel .focus\:ring-offset-slate-950:focus {
+  --tw-ring-offset-color: #f5f0e8 !important;
+}
+
+/* Hover state overrides */
+html.marvel .hover\:bg-slate-800\/60:hover,
+html.marvel .hover\:bg-slate-800\/80:hover,
+html.marvel .hover\:bg-slate-800:hover,
+html.marvel .hover\:bg-slate-700:hover,
+html.marvel .hover\:bg-slate-700\/80:hover,
+html.marvel .hover\:bg-slate-600:hover {
+  background-color: #f0ebe3 !important;
+}
+
+/* Marvel-specific extras */
+html.marvel .dark-border {
+  border-color: #1a1a1a !important;
+}
+
+html.marvel .bg-indigo-950\/30 {
+  background-color: #f0ebe3 !important;
+}
+
+html.marvel .text-indigo-300,
+html.marvel .text-indigo-400 {
+  color: #4338ca !important;
+}
+
+/* Comic corner accent — scope to glass-panel only */
+html.marvel .glass-panel.rounded-3xl {
+  border-radius: 1rem !important;
+}
+
+/* ─── Marvel Comic Animations ─── */
+
+/* Comic POW! burst entrance */
+@keyframes comicBurst {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  40% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes actionLines {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes panelSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-30px) rotate(-1deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) rotate(0deg);
+  }
+}
+
+@keyframes comicPop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes dotsRotate {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 12px 12px;
+  }
+}
+
+/* Auto-activate comic animations on page content */
+html.marvel .animate-fade-in-up {
+  animation: comicBurst 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+}
+
+html.marvel .glass-panel:not(.rounded-none) {
+  animation: panelSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* Stagger panel animations by index */
+html.marvel .glass-panel:not(.rounded-none):nth-child(2) { animation-delay: 0.05s; }
+html.marvel .glass-panel:not(.rounded-none):nth-child(3) { animation-delay: 0.1s; }
+html.marvel .glass-panel:not(.rounded-none):nth-child(4) { animation-delay: 0.15s; }
+html.marvel .glass-panel:not(.rounded-none):nth-child(5) { animation-delay: 0.2s; }
+html.marvel .glass-panel:not(.rounded-none):nth-child(6) { animation-delay: 0.25s; }
+html.marvel .glass-panel:not(.rounded-none):nth-child(7) { animation-delay: 0.3s; }
+html.marvel .glass-panel:not(.rounded-none):nth-child(8) { animation-delay: 0.35s; }
+
+/* Comic logo for Marvel theme */
+html.marvel .bg-gradient-to-tr.from-blue-600.via-sky-500.to-cyan-400,
+html.marvel [class*="from-blue-600"] {
+  background: linear-gradient(135deg, #e23636, #ffd700) !important;
+}
+
+html.marvel .bg-gradient-to-r.from-white.via-blue-100.to-sky-300 {
+  background: linear-gradient(to right, #e23636, #ffd700, #e23636) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+html.marvel [class*="shadow-blue-600"] {
+  box-shadow: 0 10px 15px -3px rgba(226, 54, 54, 0.4), 0 0 20px rgba(255, 215, 0, 0.2) !important;
+}
+
+/* Marvel Splash Animations */
+@keyframes marvelSplashOverlay {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes marvelSplashWord {
+  0% {
+    transform: rotate(-12deg) scale(0.3);
+    opacity: 0;
+  }
+  15% {
+    transform: rotate(-6deg) scale(1.15);
+    opacity: 1;
+  }
+  30% {
+    transform: rotate(-8deg) scale(0.95);
+    opacity: 1;
+  }
+  50% {
+    transform: rotate(-8deg) scale(1.02);
+    opacity: 1;
+  }
+  70% {
+    transform: rotate(-8deg) scale(1);
+    opacity: 1;
+  }
+  90% {
+    transform: rotate(-8deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(-8deg) scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes marvelParticle {
+  0% {
+    transform: scale(0) translate(0, 0) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5) translate(var(--tx, 80px), var(--ty, -80px)) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.animate-marvel-splash-overlay {
+  animation: marvelSplashOverlay 1.3s ease-out forwards;
+}
+
+.animate-marvel-splash-word {
+  animation: marvelSplashWord 1.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-marvel-particle {
+  --tx: 100px;
+  --ty: -100px;
+  animation: marvelParticle 0.8s ease-out forwards;
+}
+
+.animate-marvel-particle:nth-child(odd) {
+  --tx: -80px;
+  --ty: 80px;
+}
+
+.animate-marvel-particle:nth-child(3n) {
+  --tx: 60px;
+  --ty: 120px;
+}
+
+.animate-marvel-particle:nth-child(4n+1) {
+  --tx: -120px;
+  --ty: -60px;
+}
+
+/* ─── Comic Loading Screen Animations ─── */
+
+@keyframes comicLoadingPanel {
+  0% {
+    transform: scale(0.85) rotate(-2deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.02) rotate(1deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes comicLoadingLogo {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.05) rotate(-5deg);
+  }
+  75% {
+    transform: scale(1.05) rotate(5deg);
+  }
+}
+
+@keyframes comicLoadingGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(226, 54, 54, 0.3), 0 0 40px rgba(255, 215, 0, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(226, 54, 54, 0.6), 0 0 80px rgba(255, 215, 0, 0.3);
+  }
+}
+
+@keyframes comicLoadingRing {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes comicDot {
+  0%, 80%, 100% {
+    transform: scale(0.6);
+    opacity: 0.3;
+  }
+  40% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+@keyframes comicLoadingText {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-comic-loading-panel {
+  animation: comicLoadingPanel 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.animate-comic-loading-logo {
+  animation: comicLoadingLogo 2s ease-in-out infinite;
+}
+
+.animate-comic-loading-glow {
+  animation: comicLoadingGlow 2s ease-in-out infinite;
+}
+
+.animate-comic-loading-ring {
+  animation: comicLoadingRing 3s linear infinite;
+}
+
+.animate-comic-dot {
+  animation: comicDot 1.2s ease-in-out infinite;
+}
+
+.animate-comic-loading-text {
+  animation: comicLoadingText 1.5s ease-in-out infinite;
+}
+
+/* Utility classes */
+html.marvel .animate-comic-burst {
+  animation: comicBurst 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+html.marvel .animate-panel-slide {
+  animation: panelSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+html.marvel .animate-comic-pop {
+  animation: comicPop 0.3s ease-in-out;
+}
+
+html.marvel .animate-dots {
+  animation: dotsRotate 3s linear infinite;
+}
+/* Print styles stay the same */
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
@@ -265,7 +1014,7 @@ html.light ::-webkit-scrollbar-thumb:hover {
   background: #a8a29e;
 }
 
-/* Inputs & Form Controls */
+/* Inputs & Form Controls (dark default) */
 input, select, textarea {
   background: rgba(8, 21, 41, 0.9) !important;
   border: 1px solid rgba(59, 130, 246, 0.3) !important;
@@ -291,6 +1040,11 @@ button {
 
 button:active {
   transform: scale(0.97);
+}
+
+/* ─── Theme toggle pill smooth animation ─── */
+.theme-toggle-knob {
+  transition: left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Animation Keyframes & Dynamic Micro-Interactions */

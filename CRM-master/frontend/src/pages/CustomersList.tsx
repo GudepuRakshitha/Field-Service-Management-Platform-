@@ -4,6 +4,7 @@ import { api } from '../api/client';
 import { PageHeader } from '../components/PageHeader';
 import { Button } from '../components/Button';
 import { Modal } from '../components/Modal';
+import { ComicLoadingScreen } from '../components/ComicLoadingScreen';
 import { useAuth } from '../auth/AuthContext';
 import {
   Building2,
@@ -14,7 +15,6 @@ import {
   Building,
   ChevronDown,
   ChevronUp,
-  Briefcase
 } from 'lucide-react';
 
 export const CustomersList: React.FC = () => {
@@ -26,12 +26,10 @@ export const CustomersList: React.FC = () => {
   const [sites, setSites] = useState<Record<number, Site[]>>({});
   const [sitesLoading, setSitesLoading] = useState<Record<number, boolean>>({});
 
-  // Add Customer Modal
   const [addCustomerModalOpen, setAddCustomerModalOpen] = useState(false);
   const [custName, setCustName] = useState('');
   const [custEmail, setCustEmail] = useState('');
 
-  // Add Site Modal
   const [addSiteModalOpen, setAddSiteModalOpen] = useState(false);
   const [targetCustomerId, setTargetCustomerId] = useState<number | null>(null);
   const [siteName, setSiteName] = useState('');
@@ -64,9 +62,7 @@ export const CustomersList: React.FC = () => {
       setExpandedCustomerId(null);
       return;
     }
-
     setExpandedCustomerId(id);
-
     if (!sites[id]) {
       setSitesLoading((prev) => ({ ...prev, [id]: true }));
       try {
@@ -85,10 +81,7 @@ export const CustomersList: React.FC = () => {
     setError('');
     setSubmitting(true);
     try {
-      await api.createCustomer({
-        name: custName,
-        contactEmail: custEmail,
-      });
+      await api.createCustomer({ name: custName, contactEmail: custEmail });
       setSuccess(`Customer Organization '${custName}' registered successfully!`);
       setAddCustomerModalOpen(false);
       setCustName('');
@@ -112,15 +105,11 @@ export const CustomersList: React.FC = () => {
     setError('');
     setSubmitting(true);
     try {
-      await api.createSite(targetCustomerId, {
-        name: siteName,
-        address: siteAddress,
-      });
+      await api.createSite(targetCustomerId, { name: siteName, address: siteAddress });
       setSuccess(`Facility Site '${siteName}' created!`);
       setAddSiteModalOpen(false);
       setSiteName('');
       setSiteAddress('');
-      // Reload sites for this customer
       const updated = await api.getCustomerSites(targetCustomerId);
       setSites((prev) => ({ ...prev, [targetCustomerId]: updated }));
       fetchCustomers();
@@ -130,6 +119,10 @@ export const CustomersList: React.FC = () => {
       setSubmitting(false);
     }
   };
+
+  if (loading) {
+    return <ComicLoadingScreen message="LOADING CUSTOMERS..." subtitle="Retrieving Tenant Directory" />;
+  }
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6">
@@ -150,7 +143,7 @@ export const CustomersList: React.FC = () => {
       />
 
       {success && (
-        <div className="bg-emerald-500/20 border border-emerald-500/40 text-emerald-200 p-4 rounded-2xl text-sm font-medium flex items-center justify-between shadow-lg">
+        <div className="bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 p-4 rounded-2xl text-sm font-medium flex items-center justify-between shadow-lg">
           <span>✅ {success}</span>
           <button onClick={() => setSuccess('')} className="text-emerald-400 hover:text-white font-bold text-xs">
             Dismiss
@@ -161,21 +154,19 @@ export const CustomersList: React.FC = () => {
       {/* Search Bar */}
       <div className="glass-panel p-4 rounded-2xl flex items-center justify-between gap-4">
         <div className="relative w-full sm:w-80">
-          <Search className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400" />
+          <Search className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400 pointer-events-none" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by customer organization name..."
-            className="w-full pl-10 pr-4 py-2 bg-[#081324] border border-blue-900/50 rounded-xl text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full pl-10 pr-4 py-2 text-sm rounded-xl focus:outline-none"
           />
         </div>
       </div>
 
       {/* Customer Directory Cards */}
-      {loading ? (
-        <div className="text-center py-16 text-slate-400">Loading customer organization directory...</div>
-      ) : customers.length === 0 ? (
+      {customers.length === 0 ? (
         <div className="text-center py-16 text-slate-400 space-y-2">
           <Building className="w-10 h-10 mx-auto text-slate-600" />
           <div className="font-semibold text-slate-300">No customers registered</div>
@@ -187,19 +178,17 @@ export const CustomersList: React.FC = () => {
             const customerSites = sites[c.id] || [];
 
             return (
-              <div key={c.id} className="glass-panel rounded-2xl overflow-hidden border border-blue-900/40 shadow-xl transition-all">
+              <div key={c.id} className="glass-panel rounded-2xl overflow-hidden shadow-xl transition-all">
                 <div className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 via-sky-500 to-cyan-400 flex items-center justify-center font-black text-white text-lg shadow-md shadow-blue-600/30 shrink-0">
                       {c.name.charAt(0)}
                     </div>
                     <div>
-                      <div className="text-lg font-black text-white flex items-center gap-2">
-                        {c.name}
-                      </div>
+                      <div className="text-lg font-black text-white">{c.name}</div>
                       <div className="flex items-center gap-4 text-xs text-slate-400 mt-1">
-                        <span className="flex items-center gap-1.5 font-mono text-sky-300">
-                          <Mail className="w-3.5 h-3.5 text-sky-400" /> {c.contactEmail}
+                        <span className="flex items-center gap-1.5 font-mono text-sky-400">
+                          <Mail className="w-3.5 h-3.5" /> {c.contactEmail}
                         </span>
                         <span className="flex items-center gap-1 font-bold text-slate-300">
                           <Building className="w-3.5 h-3.5 text-blue-400" /> {c.sitesCount} Facilities / Sites
@@ -212,44 +201,44 @@ export const CustomersList: React.FC = () => {
                     {canManage && (
                       <button
                         onClick={() => openAddSiteModal(c.id)}
-                        className="px-3.5 py-2 rounded-xl bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 text-xs font-bold flex items-center gap-1.5"
+                        className="px-3.5 py-2 rounded-xl bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 text-xs font-bold flex items-center gap-1.5 transition-all"
                       >
                         <Plus className="w-4 h-4 text-sky-400" /> + Add Site Facility
                       </button>
                     )}
-
                     <button
                       onClick={() => toggleExpandCustomer(c.id)}
-                      className="px-3.5 py-2 rounded-xl bg-blue-950/60 hover:bg-blue-900/60 text-slate-200 border border-blue-900/50 text-xs font-bold flex items-center gap-2"
+                      className="px-3.5 py-2 rounded-xl bg-blue-950/40 hover:bg-blue-900/50 text-slate-200 border border-blue-900/40 text-xs font-bold flex items-center gap-2 transition-all"
                     >
                       {isExpanded ? (
-                        <>
-                          Hide Sites <ChevronUp className="w-4 h-4 text-sky-400" />
-                        </>
+                        <>Hide Sites <ChevronUp className="w-4 h-4 text-sky-400" /></>
                       ) : (
-                        <>
-                          View Sites ({c.sitesCount}) <ChevronDown className="w-4 h-4 text-sky-400" />
-                        </>
+                        <>View Sites ({c.sitesCount}) <ChevronDown className="w-4 h-4 text-sky-400" /></>
                       )}
                     </button>
                   </div>
                 </div>
 
-                {/* Expanded Sites List */}
+                {/* Expanded Sites Section — theme-aware */}
                 {isExpanded && (
-                  <div className="border-t border-blue-900/40 bg-[#061122]/90 p-5 space-y-3">
-                    <div className="text-xs font-bold text-sky-300 uppercase tracking-wider flex items-center gap-2 mb-2">
+                  <div className="border-t border-blue-900/30 glass-panel rounded-none p-5 space-y-3">
+                    <div className="text-xs font-bold text-sky-400 uppercase tracking-wider flex items-center gap-2 mb-2">
                       <MapPin className="w-4 h-4 text-sky-400" /> Facilities & Locations for {c.name}
                     </div>
 
                     {sitesLoading[c.id] ? (
                       <div className="text-xs text-slate-400 py-4">Loading sites...</div>
                     ) : customerSites.length === 0 ? (
-                      <div className="text-xs text-slate-400 py-4">No sites recorded for this customer. Click '+ Add Site Facility' to add one.</div>
+                      <div className="text-xs text-slate-400 py-4">
+                        No sites recorded for this customer. Click '+ Add Site Facility' to add one.
+                      </div>
                     ) : (
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                         {customerSites.map((s) => (
-                          <div key={s.id} className="p-3.5 rounded-xl bg-[#08152b] border border-blue-900/50 space-y-1">
+                          <div
+                            key={s.id}
+                            className="p-3.5 rounded-xl glass-panel border border-blue-900/40 space-y-1"
+                          >
                             <div className="text-sm font-bold text-white flex items-center gap-2">
                               <MapPin className="w-4 h-4 text-sky-400 shrink-0" /> {s.name}
                             </div>
@@ -271,42 +260,44 @@ export const CustomersList: React.FC = () => {
       {/* Add Customer Modal */}
       <Modal isOpen={addCustomerModalOpen} onClose={() => setAddCustomerModalOpen(false)} title="Register Customer Tenant Organization">
         <form onSubmit={handleCreateCustomer} className="space-y-4">
-          {error && <div className="bg-rose-500/15 border border-rose-500/40 text-rose-200 p-3 rounded-xl text-xs">{error}</div>}
-
+          {error && (
+            <div className="bg-rose-500/15 border border-rose-500/40 text-rose-300 p-3 rounded-xl text-xs">
+              {error}
+            </div>
+          )}
           <div>
-            <label className="block text-xs font-bold text-blue-200 uppercase tracking-wider mb-1">Organization Name</label>
-            <input type="text" required value={custName} onChange={(e) => setCustName(e.target.value)} placeholder="e.g. Metro Commercial Properties" className="w-full" />
+            <label className="block text-xs font-bold text-blue-300 uppercase tracking-wider mb-1">Organization Name</label>
+            <input type="text" required value={custName} onChange={(e) => setCustName(e.target.value)} placeholder="e.g. Metro Commercial Properties" className="w-full rounded-xl" />
           </div>
-
           <div>
-            <label className="block text-xs font-bold text-blue-200 uppercase tracking-wider mb-1">Primary Contact Email</label>
-            <input type="email" required value={custEmail} onChange={(e) => setCustEmail(e.target.value)} placeholder="dispatch@metroprops.com" className="w-full" />
+            <label className="block text-xs font-bold text-blue-300 uppercase tracking-wider mb-1">Primary Contact Email</label>
+            <input type="email" required value={custEmail} onChange={(e) => setCustEmail(e.target.value)} placeholder="dispatch@metroprops.com" className="w-full rounded-xl" />
           </div>
-
-          <div className="pt-4 flex justify-end gap-3 border-t border-blue-900/40">
+          <div className="pt-4 flex justify-end gap-3 border-t border-slate-800/60">
             <Button type="button" variant="outline" onClick={() => setAddCustomerModalOpen(false)}>Cancel</Button>
             <Button type="submit" loading={submitting} className="bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold">Register Customer</Button>
           </div>
         </form>
       </Modal>
 
-      {/* Add Site Facility Modal */}
+      {/* Add Site Modal */}
       {addSiteModalOpen && (
         <Modal isOpen={addSiteModalOpen} onClose={() => setAddSiteModalOpen(false)} title="Add Physical Site Facility Location">
           <form onSubmit={handleCreateSite} className="space-y-4">
-            {error && <div className="bg-rose-500/15 border border-rose-500/40 text-rose-200 p-3 rounded-xl text-xs">{error}</div>}
-
+            {error && (
+              <div className="bg-rose-500/15 border border-rose-500/40 text-rose-300 p-3 rounded-xl text-xs">
+                {error}
+              </div>
+            )}
             <div>
-              <label className="block text-xs font-bold text-blue-200 uppercase tracking-wider mb-1">Facility Site Name</label>
-              <input type="text" required value={siteName} onChange={(e) => setSiteName(e.target.value)} placeholder="e.g. Tower B - Central HVAC Room" className="w-full" />
+              <label className="block text-xs font-bold text-blue-300 uppercase tracking-wider mb-1">Facility Site Name</label>
+              <input type="text" required value={siteName} onChange={(e) => setSiteName(e.target.value)} placeholder="e.g. Tower B - Central HVAC Room" className="w-full rounded-xl" />
             </div>
-
             <div>
-              <label className="block text-xs font-bold text-blue-200 uppercase tracking-wider mb-1">Full Street Address & Location Details</label>
-              <textarea required rows={3} value={siteAddress} onChange={(e) => setSiteAddress(e.target.value)} placeholder="789 Market Street, Floor 4, San Francisco, CA 94103" className="w-full" />
+              <label className="block text-xs font-bold text-blue-300 uppercase tracking-wider mb-1">Full Street Address</label>
+              <textarea required rows={3} value={siteAddress} onChange={(e) => setSiteAddress(e.target.value)} placeholder="789 Market Street, Floor 4, San Francisco, CA 94103" className="w-full rounded-xl" />
             </div>
-
-            <div className="pt-4 flex justify-end gap-3 border-t border-blue-900/40">
+            <div className="pt-4 flex justify-end gap-3 border-t border-slate-800/60">
               <Button type="button" variant="outline" onClick={() => setAddSiteModalOpen(false)}>Cancel</Button>
               <Button type="submit" loading={submitting} className="bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold">Save Site Location</Button>
             </div>

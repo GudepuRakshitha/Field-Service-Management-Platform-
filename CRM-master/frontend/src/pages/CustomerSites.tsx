@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Site, WorkOrder, Priority } from '../api/types';
 import { api } from '../api/client';
 import { useAuth } from '../auth/AuthContext';
+import { ComicLoadingScreen } from '../components/ComicLoadingScreen';
 import { Building2, MapPin, Plus, Wrench, Calendar, ChevronRight, X, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -71,7 +72,7 @@ export const CustomerSites: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="p-8 text-center text-emerald-400 font-medium">Loading your registered sites...</div>;
+    return <ComicLoadingScreen message="LOADING SITES..." subtitle="Retrieving Facility Directory" />;
   }
 
   return (
@@ -121,7 +122,7 @@ export const CustomerSites: React.FC = () => {
                 <div className="space-y-3">
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 flex items-center justify-center text-emerald-400 group-hover:scale-105 transition-transform">
+                      <div className="w-10 h-10 rounded-xl glass-panel flex items-center justify-center text-emerald-400 group-hover:scale-105 transition-transform">
                         <Building2 className="w-5 h-5" />
                       </div>
                       <div>
@@ -136,7 +137,7 @@ export const CustomerSites: React.FC = () => {
                     </span>
                   </div>
 
-                  <div className="flex items-start gap-2 text-xs text-slate-300 bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                  <div className="flex items-start gap-2 text-xs text-slate-300 glass-panel p-3 rounded-xl">
                     <MapPin className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
                     <span>{site.address}</span>
                   </div>
@@ -147,7 +148,7 @@ export const CustomerSites: React.FC = () => {
                       <span className="block text-emerald-300 font-bold text-sm">{activeCount}</span>
                       <span className="text-[10px] text-slate-400 uppercase font-semibold">Active Jobs</span>
                     </div>
-                    <div className="p-2 rounded-lg bg-slate-900/60 border border-slate-800 text-center">
+                    <div className="p-2 rounded-lg glass-panel text-center">
                       <span className="block text-cyan-300 font-bold text-sm">{completedCount}</span>
                       <span className="text-[10px] text-slate-400 uppercase font-semibold">Completed</span>
                     </div>
@@ -165,7 +166,7 @@ export const CustomerSites: React.FC = () => {
 
                   <Link
                     to={`/customer-portal?siteId=${site.id}`}
-                    className="py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-xs rounded-xl flex items-center gap-1 transition-all"
+                    className="py-2 px-3 hover:bg-slate-700 text-slate-300 font-medium text-xs rounded-xl flex items-center gap-1 transition-all"
                   >
                     View History <ChevronRight className="w-3.5 h-3.5" />
                   </Link>
@@ -196,7 +197,7 @@ export const CustomerSites: React.FC = () => {
                   required
                   value={selectedSiteId}
                   onChange={(e) => setSelectedSiteId(Number(e.target.value))}
-                  className="w-full bg-slate-900 border border-slate-700 text-white rounded-xl p-2.5 text-sm"
+                  className="w-full rounded-xl p-2.5 text-sm"
                 >
                   <option value="">-- Select Your Site --</option>
                   {sites.map((s) => (
@@ -215,7 +216,7 @@ export const CustomerSites: React.FC = () => {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="e.g. HVAC Unit Failure in Main Lobby"
-                  className="w-full bg-slate-900 border border-slate-700 text-white rounded-xl p-2.5 text-sm"
+                  className="w-full rounded-xl p-2.5 text-sm"
                 />
               </div>
 
@@ -226,7 +227,7 @@ export const CustomerSites: React.FC = () => {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Provide context for our dispatchers..."
-                  className="w-full bg-slate-900 border border-slate-700 text-white rounded-xl p-2.5 text-sm"
+                  className="w-full rounded-xl p-2.5 text-sm"
                 />
               </div>
 
@@ -235,7 +236,7 @@ export const CustomerSites: React.FC = () => {
                 <select
                   value={priority}
                   onChange={(e) => setPriority(e.target.value as Priority)}
-                  className="w-full bg-slate-900 border border-slate-700 text-white rounded-xl p-2.5 text-sm"
+                  className="w-full rounded-xl p-2.5 text-sm"
                 >
                   <option value="LOW">Low (5 Days Response)</option>
                   <option value="MEDIUM">Medium (3 Days Response)</option>
@@ -248,7 +249,7 @@ export const CustomerSites: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 bg-slate-800 text-slate-300 text-sm rounded-xl"
+                  className="px-4 py-2 text-sm rounded-xl"
                 >
                   Cancel
                 </button>

@@ -17,6 +17,8 @@ import {
   TrendingDown
 } from 'lucide-react';
 
+import { ComicLoadingScreen } from '../components/ComicLoadingScreen';
+
 export const PartsInventory: React.FC = () => {
   const { isManager } = useAuth();
   const [parts, setParts] = useState<Part[]>([]);
@@ -115,6 +117,10 @@ export const PartsInventory: React.FC = () => {
   const totalInventoryValue = parts.reduce((acc, p) => acc + p.unitCost * p.stockQty, 0);
   const lowStockCount = parts.filter((p) => p.stockQty <= 5).length;
 
+  if (loading) {
+    return <ComicLoadingScreen message="LOADING INVENTORY..." subtitle="Fetching Parts Catalog" />;
+  }
+
   return (
     <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6">
       <PageHeader
@@ -184,95 +190,93 @@ export const PartsInventory: React.FC = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by SKU or part name..."
-            className="w-full pl-10 pr-4 py-2 bg-[#081324] border border-blue-900/50 rounded-xl text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full pl-10 pr-4 py-2 text-sm rounded-xl focus:outline-none"
           />
         </div>
       </div>
 
       {/* Parts Directory Table */}
-      <div className="glass-panel rounded-2xl overflow-hidden shadow-xl">
-        {loading ? (
-          <div className="text-center py-16 text-slate-400">Loading parts inventory catalog...</div>
-        ) : parts.length === 0 ? (
-          <div className="text-center py-16 text-slate-400 space-y-2">
-            <Package className="w-10 h-10 mx-auto text-slate-600" />
-            <div className="font-semibold text-slate-300">No parts found</div>
-            <div className="text-xs text-slate-500">Try adjusting your search criteria.</div>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-300">
-              <thead className="bg-[#08152b] text-xs uppercase font-extrabold text-blue-300 border-b border-blue-900/40">
-                <tr>
-                  <th className="px-6 py-4 text-center">Part Name</th>
-                  <th className="px-6 py-4 text-center">SKU Code</th>
-                  <th className="px-6 py-4 text-center">Unit Cost</th>
-                  <th className="px-6 py-4 text-center">In-Stock Quantity</th>
-                  <th className="px-6 py-4 text-center">Status</th>
-                  {isManager && <th className="px-6 py-4 text-center">Actions</th>}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-blue-900/30">
-                {parts.map((p) => {
-                  const isLow = p.stockQty <= 5;
-                  const isOut = p.stockQty === 0;
+        <div className="glass-panel rounded-2xl overflow-hidden shadow-xl">
+          {parts.length === 0 ? (
+            <div className="text-center py-16 text-slate-400 space-y-2">
+              <Package className="w-10 h-10 mx-auto text-slate-600" />
+              <div className="font-semibold text-slate-300">No parts found</div>
+              <div className="text-xs text-slate-500">Try adjusting your search criteria.</div>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-sm text-slate-300">
+                <thead className="text-xs uppercase font-extrabold text-blue-400 border-b border-blue-900/40">
+                  <tr>
+                    <th className="px-6 py-4 text-center">Part Name</th>
+                    <th className="px-6 py-4 text-center">SKU Code</th>
+                    <th className="px-6 py-4 text-center">Unit Cost</th>
+                    <th className="px-6 py-4 text-center">In-Stock Quantity</th>
+                    <th className="px-6 py-4 text-center">Status</th>
+                    {isManager && <th className="px-6 py-4 text-center">Actions</th>}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-blue-900/30">
+                  {parts.map((p) => {
+                    const isLow = p.stockQty <= 5;
+                    const isOut = p.stockQty === 0;
 
-                  return (
-                    <tr key={p.id} className="hover:bg-blue-950/30 transition-colors">
-                      <td className="px-6 py-4 text-left font-bold text-white">
-                        <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-sky-400 shrink-0">
-                            <Package className="w-4 h-4" />
-                          </div>
-                          <span>{p.name}</span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 text-left font-mono text-xs text-sky-300">
-                        <div className="flex justify-start">
-                          <span className="inline-flex items-center gap-1.5 bg-sky-950/50 px-2.5 py-1 rounded-lg border border-sky-800/40">
-                            <Barcode className="w-3.5 h-3.5 text-sky-400" /> {p.sku}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 text-left font-bold text-emerald-400">${p.unitCost.toFixed(2)}</td>
-                      <td className="px-6 py-4 text-left font-extrabold text-base text-white">{p.stockQty} units</td>
-                      <td className="px-6 py-4 text-left">
-                        <div className="flex justify-start">
-                          {isOut ? (
-                            <span className="inline-flex items-center gap-1.5 text-xs font-bold bg-rose-500/20 text-rose-300 px-3 py-1 rounded-full border border-rose-500/40">
-                              Out of Stock
-                            </span>
-                          ) : isLow ? (
-                            <span className="inline-flex items-center gap-1.5 text-xs font-bold bg-amber-500/20 text-amber-300 px-3 py-1 rounded-full border border-amber-500/40 animate-pulse">
-                              <TrendingDown className="w-3.5 h-3.5 text-amber-400" /> Low Stock
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center gap-1.5 text-xs font-bold bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full border border-emerald-500/40">
-                              In Stock
-                            </span>
-                          )}
-                        </div>
-                      </td>
-                      {isManager && (
-                        <td className="px-6 py-4 text-left">
-                          <div className="flex items-center justify-start">
-                            <button
-                              onClick={() => openEditModal(p)}
-                              className="px-3 py-1.5 rounded-xl bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 text-xs font-bold flex items-center gap-1.5"
-                            >
-                              <Edit className="w-3.5 h-3.5 text-sky-400" /> Restock / Edit
-                            </button>
+                    return (
+                      <tr key={p.id} className="hover:bg-blue-950/30 transition-colors">
+                        <td className="px-6 py-4 text-left font-bold text-white">
+                          <div className="flex items-center gap-3">
+                            <div className="w-9 h-9 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-sky-400 shrink-0">
+                              <Package className="w-4 h-4" />
+                            </div>
+                            <span>{p.name}</span>
                           </div>
                         </td>
-                      )}
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+                        <td className="px-6 py-4 text-left font-mono text-xs text-sky-300">
+                          <div className="flex justify-start">
+                            <span className="inline-flex items-center gap-1.5 bg-sky-950/50 px-2.5 py-1 rounded-lg border border-sky-800/40">
+                              <Barcode className="w-3.5 h-3.5 text-sky-400" /> {p.sku}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-left font-bold text-emerald-400">${p.unitCost.toFixed(2)}</td>
+                        <td className="px-6 py-4 text-left font-extrabold text-base text-white">{p.stockQty} units</td>
+                        <td className="px-6 py-4 text-left">
+                          <div className="flex justify-start">
+                            {isOut ? (
+                              <span className="inline-flex items-center gap-1.5 text-xs font-bold bg-rose-500/20 text-rose-300 px-3 py-1 rounded-full border border-rose-500/40">
+                                Out of Stock
+                              </span>
+                            ) : isLow ? (
+                              <span className="inline-flex items-center gap-1.5 text-xs font-bold bg-amber-500/20 text-amber-300 px-3 py-1 rounded-full border border-amber-500/40 animate-pulse">
+                                <TrendingDown className="w-3.5 h-3.5 text-amber-400" /> Low Stock
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1.5 text-xs font-bold bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full border border-emerald-500/40">
+                                In Stock
+                              </span>
+                            )}
+                          </div>
+                        </td>
+                        {isManager && (
+                          <td className="px-6 py-4 text-left">
+                            <div className="flex items-center justify-start">
+                              <button
+                                onClick={() => openEditModal(p)}
+                                className="px-3 py-1.5 rounded-xl bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 text-xs font-bold flex items-center gap-1.5"
+                              >
+                                <Edit className="w-3.5 h-3.5 text-sky-400" /> Restock / Edit
+                              </button>
+                            </div>
+                          </td>
+                        )}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
 
       {/* Add New Part Modal */}
       <Modal isOpen={addModalOpen} onClose={() => setAddModalOpen(false)} title="Add New Inventory Catalog Part">

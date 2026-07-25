@@ -37,8 +37,9 @@ export const Modal: React.FC<ModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200 no-print">
-      <div className={`glass-panel p-6 sm:p-7 rounded-3xl w-full ${maxWidthStyles[maxWidth]} space-y-5 max-h-[90vh] overflow-y-auto shadow-2xl border-blue-900/40 relative flex flex-col justify-between`}>
-        <div className="flex justify-between items-center pb-4 border-b border-slate-800/80">
+      <div className={`glass-panel p-6 sm:p-7 rounded-3xl w-full ${maxWidthStyles[maxWidth]} space-y-5 max-h-[90vh] overflow-y-auto shadow-2xl relative flex flex-col justify-between`}>
+        {/* Header */}
+        <div className="flex justify-between items-center pb-4 border-b border-slate-800/80 dark-border">
           <div className="font-extrabold text-lg sm:text-xl text-white flex items-center gap-2.5">{title}</div>
           <button
             onClick={onClose}

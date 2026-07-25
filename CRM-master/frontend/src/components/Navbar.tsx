@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
+import { useTheme } from '../theme/ThemeContext';
 import { NotificationDrawer } from './NotificationDrawer';
-import { Bell, HardHat, LayoutDashboard, LogOut, Package, Shield, User, Users, Wrench } from 'lucide-react';
+import { Bell, HardHat, LayoutDashboard, LogOut, Moon, Package, Shield, Sparkles, Sun, User, Users, Wrench } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const { user, logout, isManager, isDispatcher, isTechnician, isCustomer } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const location = useLocation();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -28,7 +30,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      <nav className="sticky top-0 z-40 bg-[#060e1a]/85 backdrop-blur-xl border-b border-blue-900/40 px-4 lg:px-8 py-3.5 shadow-xl">
+      <nav className="sticky top-0 z-40 glass-panel rounded-none backdrop-blur-xl border-b border-blue-900/40 px-4 lg:px-8 py-3.5 shadow-xl">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Logo & Brand */}
           <div className="flex items-center gap-6">
@@ -132,6 +134,24 @@ export const Navbar: React.FC = () => {
 
           {/* User Controls */}
           <div className="flex items-center gap-3">
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="p-2.5 rounded-xl border border-blue-900/40 bg-blue-950/40 hover:bg-blue-900/60 transition-all shadow-sm flex items-center gap-1.5"
+              title={`Switch to ${theme === 'dark' ? 'Light' : theme === 'light' ? 'Comic' : 'Dark'} Mode`}
+            >
+              {theme === 'dark' ? (
+                <Sun className="w-4 h-4 text-amber-400" />
+              ) : theme === 'light' ? (
+                <Sparkles className="w-4 h-4 text-yellow-500" />
+              ) : (
+                <Moon className="w-4 h-4 text-sky-500" />
+              )}
+              <span className="text-xs font-semibold text-slate-300 hidden lg:inline">
+                {theme === 'dark' ? 'Light' : theme === 'light' ? 'Comic' : 'Dark'}
+              </span>
+            </button>
+
             <button
               onClick={() => setDrawerOpen(true)}
               className="p-2.5 text-slate-300 hover:text-white rounded-xl hover:bg-blue-900/40 relative transition-colors border border-transparent hover:border-blue-700/40"

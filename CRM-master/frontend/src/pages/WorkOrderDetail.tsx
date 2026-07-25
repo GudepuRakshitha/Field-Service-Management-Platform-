@@ -6,6 +6,7 @@ import { StatusBadge } from '../components/StatusBadge';
 import { PriorityBadge } from '../components/PriorityBadge';
 import { SlaBadge } from '../components/SlaBadge';
 import { useAuth } from '../auth/AuthContext';
+import { ComicLoadingScreen } from '../components/ComicLoadingScreen';
 import { ArrowLeft, CheckCircle, Clock, HardHat, Package, Play, Pause, XCircle, RotateCcw, Lock, X, Camera, Printer, Upload, Image as ImageIcon, DollarSign } from 'lucide-react';
 
 export const WorkOrderDetail: React.FC = () => {
@@ -147,7 +148,7 @@ export const WorkOrderDetail: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="p-8 text-center text-indigo-400 font-medium">Loading work order...</div>;
+    return <ComicLoadingScreen message="LOADING WORK ORDER..." subtitle="Fetching Job Details" />;
   }
 
   if (!workOrder) {
@@ -189,7 +190,7 @@ export const WorkOrderDetail: React.FC = () => {
             <div className="flex flex-wrap gap-2 no-print">
               <button
                 onClick={() => setIsPhotoModalOpen(true)}
-                className="px-3.5 py-2 bg-slate-900 border border-slate-700 hover:border-emerald-500/50 text-emerald-300 rounded-xl text-xs font-semibold flex items-center gap-1.5"
+                className="px-3.5 py-2 bg-blue-950/40 hover:border-emerald-500/50 text-emerald-300 rounded-xl text-xs font-semibold flex items-center gap-1.5"
               >
                 <Camera className="w-4 h-4" /> Attach Photo
               </button>
@@ -199,14 +200,14 @@ export const WorkOrderDetail: React.FC = () => {
                   loadPartsCatalog();
                   setIsPartModalOpen(true);
                 }}
-                className="px-3.5 py-2 bg-slate-900 border border-slate-700 hover:border-indigo-500/50 text-indigo-300 rounded-xl text-xs font-semibold flex items-center gap-1.5"
+                className="px-3.5 py-2 bg-blue-950/40 hover:border-indigo-500/50 text-indigo-300 rounded-xl text-xs font-semibold flex items-center gap-1.5"
               >
                 <Package className="w-4 h-4" /> Log Parts
               </button>
 
               <button
                 onClick={() => setIsTimeModalOpen(true)}
-                className="px-3.5 py-2 bg-slate-900 border border-slate-700 hover:border-amber-500/50 text-amber-300 rounded-xl text-xs font-semibold flex items-center gap-1.5"
+                className="px-3.5 py-2 bg-blue-950/40 hover:border-amber-500/50 text-amber-300 rounded-xl text-xs font-semibold flex items-center gap-1.5"
               >
                 <Clock className="w-4 h-4" /> Log Labor Time
               </button>
@@ -237,7 +238,7 @@ export const WorkOrderDetail: React.FC = () => {
         </div>
 
         {/* Description */}
-        <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+        <div className="glass-panel p-4 rounded-xl">
           <span className="text-xs font-semibold text-slate-400 uppercase block mb-1">Work Description</span>
           <p className="text-sm text-slate-200 leading-relaxed whitespace-pre-line">
             {workOrder.description || 'No additional work description provided.'}
@@ -281,7 +282,7 @@ export const WorkOrderDetail: React.FC = () => {
               const grandTotal = subtotal + tax;
 
               return (
-                <div className="p-4 rounded-xl bg-[#08152b] border border-blue-900/50 space-y-3">
+                <div className="p-4 rounded-xl glass-panel space-y-3">
                   <div className="flex items-center justify-between border-b border-blue-900/40 pb-2">
                     <span className="text-xs font-black text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
                       <DollarSign className="w-4 h-4 text-emerald-400" /> ERP Invoice & Billing Financial Summary
@@ -347,7 +348,7 @@ export const WorkOrderDetail: React.FC = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {attachments.map((att) => (
-              <div key={att.id} className="bg-slate-900/80 rounded-xl overflow-hidden border border-slate-800 flex flex-col justify-between group">
+              <div key={att.id} className="glass-panel rounded-xl overflow-hidden flex flex-col justify-between group">
                 <div className="relative aspect-video bg-black flex items-center justify-center overflow-hidden">
                   <img
                     src={att.url}
@@ -447,7 +448,7 @@ export const WorkOrderDetail: React.FC = () => {
               <button
                 onClick={() => handleStatusTransition('CLOSED')}
                 disabled={transitioning}
-                className="px-4 py-2 bg-slate-900 border border-slate-700 hover:bg-slate-800 text-slate-300 font-semibold rounded-xl text-sm flex items-center gap-2"
+                className="px-4 py-2 hover:bg-slate-800 text-slate-300 font-semibold rounded-xl text-sm flex items-center gap-2"
               >
                 <Lock className="w-4 h-4" /> Close & Archive Work Order
               </button>
@@ -514,7 +515,7 @@ export const WorkOrderDetail: React.FC = () => {
                 <select
                   value={photoType}
                   onChange={(e: any) => setPhotoType(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 text-white rounded-xl p-2.5 text-sm"
+                  className="w-full rounded-xl p-2.5 text-sm"
                 >
                   <option value="BEFORE">Before Inspection / Repair</option>
                   <option value="AFTER">After Completion</option>
@@ -538,7 +539,7 @@ export const WorkOrderDetail: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsPhotoModalOpen(false)}
-                  className="px-4 py-2 bg-slate-800 text-slate-300 text-sm rounded-xl"
+                  className="px-4 py-2 text-sm rounded-xl"
                 >
                   Cancel
                 </button>
@@ -580,7 +581,7 @@ export const WorkOrderDetail: React.FC = () => {
                   required
                   value={selectedPartId}
                   onChange={(e) => setSelectedPartId(Number(e.target.value))}
-                  className="w-full bg-slate-900 border border-slate-700 text-white rounded-xl p-2.5 text-sm"
+                  className="w-full rounded-xl p-2.5 text-sm"
                 >
                   <option value="">-- Choose Part --</option>
                   {parts.map((p) => (
@@ -599,7 +600,7 @@ export const WorkOrderDetail: React.FC = () => {
                   required
                   value={qtyUsed}
                   onChange={(e) => setQtyUsed(Number(e.target.value))}
-                  className="w-full bg-slate-900 border border-slate-700 text-white rounded-xl p-2.5 text-sm"
+                  className="w-full rounded-xl p-2.5 text-sm"
                 />
               </div>
 
@@ -607,7 +608,7 @@ export const WorkOrderDetail: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsPartModalOpen(false)}
-                  className="px-4 py-2 bg-slate-800 text-slate-300 text-sm rounded-xl"
+                  className="px-4 py-2 text-sm rounded-xl"
                 >
                   Cancel
                 </button>
@@ -644,7 +645,7 @@ export const WorkOrderDetail: React.FC = () => {
                   required
                   value={timeMinutes}
                   onChange={(e) => setTimeMinutes(Number(e.target.value))}
-                  className="w-full bg-slate-900 border border-slate-700 text-white rounded-xl p-2.5 text-sm"
+                  className="w-full rounded-xl p-2.5 text-sm"
                 />
               </div>
 
@@ -655,7 +656,7 @@ export const WorkOrderDetail: React.FC = () => {
                   value={timeNote}
                   onChange={(e) => setTimeNote(e.target.value)}
                   placeholder="Summary of labor performed..."
-                  className="w-full bg-slate-900 border border-slate-700 text-white rounded-xl p-2.5 text-sm"
+                  className="w-full rounded-xl p-2.5 text-sm"
                 />
               </div>
 
@@ -663,7 +664,7 @@ export const WorkOrderDetail: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsTimeModalOpen(false)}
-                  className="px-4 py-2 bg-slate-800 text-slate-300 text-sm rounded-xl"
+                  className="px-4 py-2 text-sm rounded-xl"
                 >
                   Cancel
                 </button>

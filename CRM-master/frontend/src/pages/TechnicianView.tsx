@@ -19,6 +19,7 @@ import {
   CalendarCheck,
   CircleDot,
 } from 'lucide-react';
+import { ComicLoadingScreen } from '../components/ComicLoadingScreen';
 import { Link } from 'react-router-dom';
 
 export const TechnicianView: React.FC = () => {
@@ -67,11 +68,7 @@ export const TechnicianView: React.FC = () => {
   const recentCompleted = jobs.filter((j) => j.status === 'COMPLETED' || j.status === 'CLOSED');
 
   if (loading) {
-    return (
-      <div className="max-w-5xl mx-auto p-8 text-center text-amber-400 font-medium">
-        Loading your field job dashboard...
-      </div>
-    );
+    return <ComicLoadingScreen message="LOADING FIELD JOBS..." subtitle="Syncing Technician Dispatch Data" />;
   }
 
   return (

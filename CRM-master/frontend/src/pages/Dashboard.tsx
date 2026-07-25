@@ -4,6 +4,7 @@ import { api } from '../api/client';
 import { PageHeader } from '../components/PageHeader';
 import { StatCard } from '../components/StatCard';
 import { Button } from '../components/Button';
+import { ComicLoadingScreen } from '../components/ComicLoadingScreen';
 import { AlertTriangle, CheckCircle2, Clock, HardHat, LayoutDashboard, MapPin, Wrench, Download, Kanban } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { exportWorkOrdersToCSV } from '../utils/csvExport';
@@ -20,11 +21,7 @@ export const Dashboard: React.FC = () => {
   }, []);
 
   if (loading) {
-    return (
-      <div className="max-w-7xl mx-auto p-8 text-center text-indigo-400 font-medium">
-        Loading executive metrics & SLA performance...
-      </div>
-    );
+    return <ComicLoadingScreen message="LOADING DASHBOARD..." subtitle="Compiling Executive Metrics" />;
   }
 
   if (!summary) {
@@ -76,7 +73,6 @@ export const Dashboard: React.FC = () => {
           icon={<Wrench className="w-5 h-5" />}
           theme="indigo"
         />
-
         <StatCard
           title="In Progress"
           value={summary.inProgressCount}
@@ -84,7 +80,6 @@ export const Dashboard: React.FC = () => {
           icon={<Clock className="w-5 h-5" />}
           theme="amber"
         />
-
         <StatCard
           title="Overdue / SLA Breach"
           value={summary.overdueCount}
@@ -92,7 +87,6 @@ export const Dashboard: React.FC = () => {
           icon={<AlertTriangle className="w-5 h-5" />}
           theme="rose"
         />
-
         <StatCard
           title="SLA Compliance Rate"
           value={`${summary.slaCompliancePercent}%`}
@@ -109,34 +103,25 @@ export const Dashboard: React.FC = () => {
           Status Pipeline Breakdown
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
-          <div className="bg-blue-950/40 p-3 rounded-xl border border-blue-900/40 text-center min-h-[85px] h-[85px] flex flex-col justify-center items-center">
-            <div className="text-[11px] text-blue-400 font-extrabold uppercase tracking-wider">NEW</div>
-            <div className="text-2xl font-black text-white mt-0.5">{summary.newCount}</div>
-          </div>
-          <div className="bg-blue-950/40 p-3 rounded-xl border border-blue-900/40 text-center min-h-[85px] h-[85px] flex flex-col justify-center items-center">
-            <div className="text-[11px] text-sky-400 font-extrabold uppercase tracking-wider">ASSIGNED</div>
-            <div className="text-2xl font-black text-white mt-0.5">{summary.assignedCount}</div>
-          </div>
-          <div className="bg-blue-950/40 p-3 rounded-xl border border-blue-900/40 text-center min-h-[85px] h-[85px] flex flex-col justify-center items-center">
-            <div className="text-[11px] text-amber-400 font-extrabold uppercase tracking-wider">IN PROGRESS</div>
-            <div className="text-2xl font-black text-white mt-0.5">{summary.inProgressCount}</div>
-          </div>
-          <div className="bg-blue-950/40 p-3 rounded-xl border border-blue-900/40 text-center min-h-[85px] h-[85px] flex flex-col justify-center items-center">
-            <div className="text-[11px] text-purple-400 font-extrabold uppercase tracking-wider">ON HOLD</div>
-            <div className="text-2xl font-black text-white mt-0.5">{summary.onHoldCount}</div>
-          </div>
-          <div className="bg-blue-950/40 p-3 rounded-xl border border-blue-900/40 text-center min-h-[85px] h-[85px] flex flex-col justify-center items-center">
-            <div className="text-[11px] text-emerald-400 font-extrabold uppercase tracking-wider">COMPLETED</div>
-            <div className="text-2xl font-black text-white mt-0.5">{summary.completedCount}</div>
-          </div>
-          <div className="bg-blue-950/40 p-3 rounded-xl border border-blue-900/40 text-center min-h-[85px] h-[85px] flex flex-col justify-center items-center">
-            <div className="text-[11px] text-slate-400 font-extrabold uppercase tracking-wider">CLOSED</div>
-            <div className="text-2xl font-black text-white mt-0.5">{summary.closedCount}</div>
-          </div>
-          <div className="bg-blue-950/40 p-3 rounded-xl border border-blue-900/40 text-center min-h-[85px] h-[85px] flex flex-col justify-center items-center">
-            <div className="text-[11px] text-rose-400 font-extrabold uppercase tracking-wider">CANCELLED</div>
-            <div className="text-2xl font-black text-white mt-0.5">{summary.cancelledCount}</div>
-          </div>
+          {[
+            { label: 'NEW', value: summary.newCount, color: 'text-blue-400' },
+            { label: 'ASSIGNED', value: summary.assignedCount, color: 'text-sky-400' },
+            { label: 'IN PROGRESS', value: summary.inProgressCount, color: 'text-amber-400' },
+            { label: 'ON HOLD', value: summary.onHoldCount, color: 'text-purple-400' },
+            { label: 'COMPLETED', value: summary.completedCount, color: 'text-emerald-400' },
+            { label: 'CLOSED', value: summary.closedCount, color: 'text-slate-400' },
+            { label: 'CANCELLED', value: summary.cancelledCount, color: 'text-rose-400' },
+          ].map(({ label, value, color }) => (
+            <div
+              key={label}
+              className="glass-panel p-3 rounded-xl text-center min-h-[85px] h-[85px] flex flex-col justify-center items-center border border-blue-900/30"
+            >
+              <div className={`text-[11px] font-extrabold uppercase tracking-wider ${color}`}>
+                {label}
+              </div>
+              <div className="text-2xl font-black text-white mt-0.5">{value}</div>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -149,7 +134,7 @@ export const Dashboard: React.FC = () => {
           </h2>
           <div className="space-y-3">
             {Object.entries(summary.technicianBreakdown).length === 0 ? (
-              <div className="text-slate-500 text-sm">No technician workloads recorded yet.</div>
+              <div className="text-slate-400 text-sm">No technician workloads recorded yet.</div>
             ) : (
               Object.entries(summary.technicianBreakdown).map(([techName, count]) => (
                 <div key={techName} className="space-y-1">
@@ -157,13 +142,13 @@ export const Dashboard: React.FC = () => {
                     <span className="font-medium text-slate-200">{techName}</span>
                     <span className="text-amber-400 font-bold">{count} jobs</span>
                   </div>
-                  <div className="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-800">
+                  <div className="w-full bg-slate-800/60 h-2 rounded-full overflow-hidden border border-slate-700/30">
                     <div
                       className="bg-amber-500 h-full rounded-full"
                       style={{
                         width: `${Math.min(100, (count / summary.totalWorkOrders) * 100)}%`,
                       }}
-                    ></div>
+                    />
                   </div>
                 </div>
               ))
@@ -178,7 +163,7 @@ export const Dashboard: React.FC = () => {
           </h2>
           <div className="space-y-3">
             {Object.entries(summary.siteBreakdown).length === 0 ? (
-              <div className="text-slate-500 text-sm">No site activities recorded yet.</div>
+              <div className="text-slate-400 text-sm">No site activities recorded yet.</div>
             ) : (
               Object.entries(summary.siteBreakdown).map(([siteName, count]) => (
                 <div key={siteName} className="space-y-1">
@@ -186,13 +171,13 @@ export const Dashboard: React.FC = () => {
                     <span className="font-medium text-slate-200">{siteName}</span>
                     <span className="text-cyan-400 font-bold">{count} jobs</span>
                   </div>
-                  <div className="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-800">
+                  <div className="w-full bg-slate-800/60 h-2 rounded-full overflow-hidden border border-slate-700/30">
                     <div
                       className="bg-cyan-500 h-full rounded-full"
                       style={{
                         width: `${Math.min(100, (count / summary.totalWorkOrders) * 100)}%`,
                       }}
-                    ></div>
+                    />
                   </div>
                 </div>
               ))

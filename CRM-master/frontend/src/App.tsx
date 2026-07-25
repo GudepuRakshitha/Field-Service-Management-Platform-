@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './auth/AuthContext';
 import { ThemeProvider } from './theme/ThemeContext';
+import { MarvelSplash } from './theme/MarvelSplash';
+import { ComicLoadingScreen } from './components/ComicLoadingScreen';
 import { SidebarLayout } from './components/SidebarLayout';
 import { GuardedRoute } from './components/GuardedRoute';
 import { Login } from './pages/Login';
@@ -20,7 +22,7 @@ const HomeRedirect: React.FC = () => {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center bg-slate-950 text-indigo-400">Loading KEYSTONE...</div>;
+    return <ComicLoadingScreen message="INITIALIZING..." subtitle="Establishing Secure Connection" />;
   }
 
   if (!user) return <Navigate to="/login" replace />;
@@ -32,6 +34,7 @@ const HomeRedirect: React.FC = () => {
 export const App: React.FC = () => {
   return (
     <ThemeProvider>
+      <MarvelSplash />
       <AuthProvider>
         <BrowserRouter>
           <SidebarLayout>
